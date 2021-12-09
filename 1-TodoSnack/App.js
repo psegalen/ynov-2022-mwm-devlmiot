@@ -33,6 +33,24 @@ export default function App() {
     setTodos(newTodos);
   };
 
+  const toggleTodo = (todoId) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === todoId) {
+        return {
+          ...todo,
+          completed: !todo.completed,
+        };
+      }
+      return todo;
+    });
+    setTodos(newTodos);
+  };
+
+  const removeTodo = (todoId) => {
+    const newTodos = todos.filter((todo) => todo.id !== todoId);
+    setTodos(newTodos);
+  };
+
   return isAdding ? (
     <AddTodo onBack={() => setIsAdding(false)} addTodo={addTodo} />
   ) : (
@@ -40,6 +58,8 @@ export default function App() {
       onAdd={() => setIsAdding(true)}
       loading={loading}
       todos={todos}
+      toggleTodo={toggleTodo}
+      removeTodo={removeTodo}
     />
   );
 }

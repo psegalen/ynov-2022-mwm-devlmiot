@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { Card } from "react-native-paper";
 import Button from "../components/Button";
@@ -22,6 +23,15 @@ const styles = StyleSheet.create({
   todoCompletedTitle: {
     textDecorationLine: "line-through",
   },
+  todoRoot: {
+    display: "flex",
+    flexDirection: "row",
+    marginBottom: 16,
+  },
+  todoCard: {
+    flex: 1,
+    marginRight: 8,
+  },
 });
 
 const TodosList = (props) => (
@@ -35,27 +45,36 @@ const TodosList = (props) => (
         <ActivityIndicator color="blue" />
       ) : (
         props.todos.map((todoItem) => (
-          <Card
-            key={`${todoItem.id}`}
-            style={[
-              screensStyles.padding,
-              screensStyles.margin,
-              todoItem.completed
-                ? styles.todoCompletedCard
-                : undefined,
-            ]}
-          >
-            <Text
-              style={[
-                styles.todoTitle,
-                todoItem.completed
-                  ? styles.todoCompletedTitle
-                  : undefined,
-              ]}
+          <View style={styles.todoRoot} key={`${todoItem.id}`}>
+            <TouchableOpacity
+              onPress={() => props.toggleTodo(todoItem.id)}
+              style={styles.todoCard}
             >
-              {todoItem.title}
-            </Text>
-          </Card>
+              <Card
+                style={[
+                  screensStyles.padding,
+                  todoItem.completed
+                    ? styles.todoCompletedCard
+                    : undefined,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.todoTitle,
+                    todoItem.completed
+                      ? styles.todoCompletedTitle
+                      : undefined,
+                  ]}
+                >
+                  {todoItem.title}
+                </Text>
+              </Card>
+            </TouchableOpacity>
+            <Button
+              title="Supprimer"
+              onPress={() => props.removeTodo(todoItem.id)}
+            />
+          </View>
         ))
       )}
     </ScrollView>

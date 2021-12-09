@@ -6,6 +6,8 @@ const buttonStyles = StyleSheet.create({
     backgroundColor: "#0000BB",
     borderRadius: 8,
     padding: 8,
+    display: "flex",
+    justifyContent: "center",
   },
   title: {
     textAlign: "center",
