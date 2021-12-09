@@ -10,10 +10,16 @@ const screensStyles = StyleSheet.create({
     padding: 8,
   },
   title: {
-    margin: 24,
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  header: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 24,
   },
   padding: {
     padding: 16,

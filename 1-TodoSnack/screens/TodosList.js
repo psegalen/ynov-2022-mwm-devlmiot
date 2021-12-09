@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Text,
   View,
@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Card } from "react-native-paper";
+import Button from "../components/Button";
 
 import screensStyles from "./ScreensStyles";
 
@@ -23,53 +24,42 @@ const styles = StyleSheet.create({
   },
 });
 
-const TodosList = () => {
-  const [loading, setLoading] = useState(true);
-  const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos")
-      .then((response) => response.json())
-      .then((data) => {
-        setTodos(data);
-        setLoading(false);
-      })
-      .catch((err) => console.error(err));
-  }, []);
-
-  return (
-    <View style={screensStyles.container}>
-      <Text style={screensStyles.title}>A faire :</Text>
-      <ScrollView>
-        {loading ? (
-          <ActivityIndicator color="blue" />
-        ) : (
-          todos.map((todoItem) => (
-            <Card
+const TodosList = (props) => (
+  <View style={screensStyles.container}>
+    <View style={screensStyles.header}>
+      <Text style={screensStyles.title}>A faire</Text>
+      <Button onPress={props.onAdd} title="Ajouter" />
+    </View>
+    <ScrollView>
+      {props.loading ? (
+        <ActivityIndicator color="blue" />
+      ) : (
+        props.todos.map((todoItem) => (
+          <Card
+            key={`${todoItem.id}`}
+            style={[
+              screensStyles.padding,
+              screensStyles.margin,
+              todoItem.completed
+                ? styles.todoCompletedCard
+                : undefined,
+            ]}
+          >
+            <Text
               style={[
-                screensStyles.padding,
-                screensStyles.margin,
+                styles.todoTitle,
                 todoItem.completed
-                  ? styles.todoCompletedCard
+                  ? styles.todoCompletedTitle
                   : undefined,
               ]}
             >
-              <Text
-                style={[
-                  styles.todoTitle,
-                  todoItem.completed
-                    ? styles.todoCompletedTitle
-                    : undefined,
-                ]}
-              >
-                {todoItem.title}
-              </Text>
-            </Card>
-          ))
-        )}
-      </ScrollView>
-    </View>
-  );
-};
+              {todoItem.title}
+            </Text>
+          </Card>
+        ))
+      )}
+    </ScrollView>
+  </View>
+);
 
 export default TodosList;
