@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import { Card } from "react-native-paper";
 
 import screensStyles from "./ScreensStyles";
@@ -18,7 +18,10 @@ const listStyles = StyleSheet.create({
 
 const PlacesList = (props) => {
   return (
-    <View style={screensStyles.container}>
+    <ScrollView
+      style={screensStyles.container}
+      contentContainerStyle={{ paddingBottom: 16 }}
+    >
       {props.places.map((p) => (
         <Card style={listStyles.card} key={p.id}>
           <Text style={listStyles.cardText}>{p.place.name}</Text>
@@ -27,7 +30,7 @@ const PlacesList = (props) => {
           </Text>
         </Card>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 

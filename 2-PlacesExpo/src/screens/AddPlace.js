@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  KeyboardAvoidingView,
+} from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Picker } from "@react-native-picker/picker";
 
@@ -28,7 +34,7 @@ const AddPlace = (props) => {
   const [comment, setComment] = useState("");
 
   return (
-    <View style={screensStyles.container}>
+    <KeyboardAvoidingView style={screensStyles.container}>
       <GooglePlacesAutocomplete
         placeholder="Rechercher un lieu ..."
         fetchDetails={true}
@@ -82,11 +88,12 @@ const AddPlace = (props) => {
                 rate,
                 comment,
               });
+              props.navigation.goBack();
             }}
           />
         </View>
       ) : undefined}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
