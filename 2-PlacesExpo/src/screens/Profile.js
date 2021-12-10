@@ -33,7 +33,7 @@ const profileStyles = StyleSheet.create({
   },
 });
 
-const Profile = () => (
+const Profile = (props) => (
   <View style={screensStyles.container}>
     <Card style={profileStyles.card}>
       <View style={profileStyles.cardRoot}>
@@ -43,7 +43,14 @@ const Profile = () => (
         <View>
           <Text style={profileStyles.greetings}>Bonjour Toto !</Text>
         </View>
-        <Button title="Changer mon nom" />
+        <Button
+          title="Changer mon nom"
+          style={screensStyles.margin}
+        />
+        <Button
+          title="Me déconnecter"
+          onPress={() => props.logout()}
+        />
       </View>
     </Card>
   </View>

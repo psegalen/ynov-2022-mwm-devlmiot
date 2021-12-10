@@ -1,14 +1,19 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import AddPlace from "./src/screens/AddPlace";
 import PlacesList from "./src/screens/PlacesList";
 import Button from "./src/components/Button";
 import Profile from "./src/screens/Profile";
+import Login from "./src/screens/Login";
+import { View } from "react-native";
+import screensStyles from "./src/screens/ScreensStyles";
+import { ActivityIndicator } from "react-native-paper";
 
 const initialPlaces = [
   {
@@ -37,18 +42,50 @@ const initialPlaces = [
   },
 ];
 
+const UserNameKey = "USERNAME_KEY";
+
 const PlacesStack = createNativeStackNavigator();
 const RootTab = createBottomTabNavigator();
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
+  const [username, setUsername] = useState("");
   const [places, setPlaces] = useState(initialPlaces);
+
+  useEffect(() => {
+    const launch = async () => {
+      const localName = await AsyncStorage.getItem(UserNameKey);
+      if (localName) {
+        setUsername(localName);
+      }
+      setLoading(false);
+    };
+    launch();
+  }, []);
+
+  const modifyUsername = (name) => {
+    setUsername(name);
+    AsyncStorage.setItem(UserNameKey, name);
+  };
+
+  const logout = () => {
+    setUsername("");
+    AsyncStorage.removeItem(UserNameKey);
+  };
 
   const addPlace = (place) => {
     const newPlaces = [...places, place];
     setPlaces(newPlaces);
   };
 
-  return (
+  if (loading)
+    return (
+      <View style={[screensStyles.container, screensStyles.center]}>
+        <ActivityIndicator color="#0000BB" />
+      </View>
+    );
+
+  return username.length > 0 ? (
     <NavigationContainer>
       <RootTab.Navigator
         screenOptions={({ route }) => ({
@@ -113,14 +150,16 @@ export default function App() {
             </PlacesStack.Navigator>
           )}
         </RootTab.Screen>
-        <RootTab.Screen
-          component={Profile}
-          name="Profile"
-          options={{ title: "Profil" }}
-        />
+        <RootTab.Screen name="Profile" options={{ title: "Profil" }}>
+          {(props) => <Profile {...props} logout={logout} />}
+        </RootTab.Screen>
       </RootTab.Navigator>
-
       <StatusBar style="auto" />
     </NavigationContainer>
+  ) : (
+    <>
+      <Login login={(name) => modifyUsername(name)} />
+      <StatusBar style="auto" />
+    </>
   );
 }

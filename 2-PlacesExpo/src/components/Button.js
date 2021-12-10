@@ -21,7 +21,7 @@ const Button = (props) => (
   <TouchableHighlight
     onPress={props.onPress}
     underlayColor="#000088"
-    style={buttonStyles.container}
+    style={[buttonStyles.container, props.style]}
   >
     <Text style={buttonStyles.title}>{props.title}</Text>
   </TouchableHighlight>

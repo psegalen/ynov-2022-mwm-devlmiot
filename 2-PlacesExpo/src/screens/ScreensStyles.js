@@ -6,6 +6,11 @@ const screensStyles = StyleSheet.create({
     backgroundColor: "#ecf0f1",
     padding: 16,
   },
+  center: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -23,6 +28,11 @@ const screensStyles = StyleSheet.create({
   },
   margin: {
     marginBottom: 16,
+  },
+  input: {
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 16,
   },
 });
 
