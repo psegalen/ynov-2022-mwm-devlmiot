@@ -32,7 +32,8 @@ const screensStyles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderRadius: 8,
-    padding: 16,
+    padding: 8,
+    fontSize: 16,
   },
 });
 

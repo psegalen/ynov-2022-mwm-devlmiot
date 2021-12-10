@@ -152,7 +152,12 @@ export default function App() {
         </RootTab.Screen>
         <RootTab.Screen name="Profile" options={{ title: "Profil" }}>
           {(props) => (
-            <Profile {...props} logout={logout} username={username} />
+            <Profile
+              {...props}
+              logout={logout}
+              username={username}
+              setUsername={setUsername}
+            />
           )}
         </RootTab.Screen>
       </RootTab.Navigator>
