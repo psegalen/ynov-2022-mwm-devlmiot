@@ -151,7 +151,9 @@ export default function App() {
           )}
         </RootTab.Screen>
         <RootTab.Screen name="Profile" options={{ title: "Profil" }}>
-          {(props) => <Profile {...props} logout={logout} />}
+          {(props) => (
+            <Profile {...props} logout={logout} username={username} />
+          )}
         </RootTab.Screen>
       </RootTab.Navigator>
       <StatusBar style="auto" />

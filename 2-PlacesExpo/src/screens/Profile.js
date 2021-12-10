@@ -41,7 +41,9 @@ const Profile = (props) => (
           <Ionicons name="person" color="#FFFFFF" size={32} />
         </View>
         <View>
-          <Text style={profileStyles.greetings}>Bonjour Toto !</Text>
+          <Text style={profileStyles.greetings}>
+            Bonjour {props.username} !
+          </Text>
         </View>
         <Button
           title="Changer mon nom"
