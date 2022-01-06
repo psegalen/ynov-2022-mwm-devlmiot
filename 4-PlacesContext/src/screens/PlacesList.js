@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 import { Card } from "react-native-paper";
+import { PlacesContext } from "../data/PlacesContext";
 
 import screensStyles from "./ScreensStyles";
 
@@ -16,13 +17,14 @@ const listStyles = StyleSheet.create({
   },
 });
 
-const PlacesList = (props) => {
+const PlacesList = () => {
+  const { places } = useContext(PlacesContext);
   return (
     <ScrollView
       style={screensStyles.container}
       contentContainerStyle={{ paddingBottom: 16 }}
     >
-      {props.places.map((p) => (
+      {places.map((p) => (
         <Card style={listStyles.card} key={p.id}>
           <Text style={listStyles.cardText}>{p.place.name}</Text>
           <Text style={listStyles.cardText}>

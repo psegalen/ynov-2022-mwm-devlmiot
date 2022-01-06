@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Text, TextInput, View, StyleSheet } from "react-native";
 import { Card } from "react-native-paper";
 import Constants from "expo-constants";
 import Button from "../components/Button";
 import screensStyles from "./ScreensStyles";
+import { UserContext } from "../data/UserContext";
 
 const loginStyles = StyleSheet.create({
   card: {
@@ -13,9 +14,10 @@ const loginStyles = StyleSheet.create({
 
 const inputStyle = [screensStyles.input, screensStyles.margin];
 
-const Login = (props) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useContext(UserContext);
   return (
     <View
       style={[
@@ -45,7 +47,7 @@ const Login = (props) => {
         <Button
           title="Se connecter"
           onPress={() => {
-            props.login(email, password);
+            login(email, password);
           }}
         />
       </Card>

@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -21,7 +21,7 @@ import {
 } from "firebase/storage";
 import Button from "../components/Button";
 import screensStyles from "./ScreensStyles";
-import { updateUser } from "../api";
+import { UserContext } from "../data/UserContext";
 
 const profileStyles = StyleSheet.create({
   card: {
@@ -88,7 +88,8 @@ const uploadImageAsync = async (uri, userId, extension) => {
   return await getDownloadURL(result.ref);
 };
 
-const Profile = ({ user, setUser, logout }) => {
+const Profile = () => {
+  const { user, logout, modifyUser } = useContext(UserContext);
   const [username, setUsername] = useState(user.name);
   const [editing, setEditing] = useState(false);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
@@ -125,9 +126,8 @@ const Profile = ({ user, setUser, logout }) => {
         "Votre nom d'utilisateur ne peut pas être vide !"
       );
     } else {
-      setUser({ ...user, name: username });
+      modifyUser({ name: username });
       setEditing(false);
-      updateUser({ id: user.id, name: username });
     }
   };
 
@@ -137,13 +137,13 @@ const Profile = ({ user, setUser, logout }) => {
       allowsEditing: false,
     });
     if (!result.cancelled) {
-      setUser({ ...user, avatar: result.uri });
+      modifyUser({ avatar: result.uri }, false);
       const avatar = await uploadImageAsync(
         result.uri,
         user.id,
         result.type === "image/png" ? "png" : "jpg"
       );
-      updateUser({ id: user.id, avatar });
+      modifyUser({ avatar });
     }
   };
 

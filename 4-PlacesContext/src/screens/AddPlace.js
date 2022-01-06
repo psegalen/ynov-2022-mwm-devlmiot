@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Text,
   View,
@@ -12,6 +12,7 @@ import { Picker } from "@react-native-picker/picker";
 import screensStyles from "./ScreensStyles";
 import Button from "../components/Button";
 import { PlacesApiKey } from "../conf";
+import { PlacesContext } from "../data/PlacesContext";
 
 const addStyles = StyleSheet.create({
   input: {
@@ -32,6 +33,7 @@ const AddPlace = (props) => {
   const [place, setPlace] = useState(null);
   const [rate, setRate] = useState(3);
   const [comment, setComment] = useState("");
+  const { addPlace } = useContext(PlacesContext);
 
   return (
     <KeyboardAvoidingView style={screensStyles.container}>
@@ -83,7 +85,7 @@ const AddPlace = (props) => {
           <Button
             title="Ajouter"
             onPress={() => {
-              props.addPlace({
+              addPlace({
                 place,
                 rate,
                 comment,
