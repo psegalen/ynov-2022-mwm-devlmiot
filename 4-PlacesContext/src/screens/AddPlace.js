@@ -13,6 +13,7 @@ import screensStyles from "./ScreensStyles";
 import Button from "../components/Button";
 import { PlacesApiKey } from "../conf";
 import { PlacesContext } from "../data/PlacesContext";
+import { UserContext } from "../data/UserContext";
 
 const addStyles = StyleSheet.create({
   input: {
@@ -34,6 +35,7 @@ const AddPlace = (props) => {
   const [rate, setRate] = useState(3);
   const [comment, setComment] = useState("");
   const { addPlace } = useContext(PlacesContext);
+  const { userid } = useContext(UserContext);
 
   return (
     <KeyboardAvoidingView style={screensStyles.container}>
@@ -85,11 +87,14 @@ const AddPlace = (props) => {
           <Button
             title="Ajouter"
             onPress={() => {
-              addPlace({
-                place,
-                rate,
-                comment,
-              });
+              addPlace(
+                {
+                  place,
+                  rate,
+                  comment,
+                },
+                userid
+              );
               props.navigation.goBack();
             }}
           />
