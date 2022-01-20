@@ -1,10 +1,5 @@
 import { initializeApp, getApps } from "firebase/app";
-import {
-  signInWithEmailAndPassword,
-  signOut,
-  getAuth,
-} from "firebase/auth";
-import { getFirestore, onSnapshot, doc } from "firebase/firestore";
+import { signInWithEmailAndPassword, signOut, getAuth } from "firebase/auth";
 import { Alert } from "react-native";
 
 const firebaseConfig = {
@@ -21,7 +16,7 @@ if (getApps().length === 0) {
   initializeApp(firebaseConfig);
 }
 
-export const signUserIn = async (login, password) =>
+export const signUserIn = async (login: string, password: string) =>
   signInWithEmailAndPassword(getAuth(), login, password).catch(() =>
     Alert.alert(
       "Authentification échouée",
@@ -30,10 +25,3 @@ export const signUserIn = async (login, password) =>
   );
 
 export const signUserOut = async () => signOut(getAuth());
-
-export const listenUserProfile = (userId, callback) => {
-  const db = getFirestore();
-  onSnapshot(doc(db, "users", userId), (doc) => {
-    callback(doc.data());
-  });
-};
